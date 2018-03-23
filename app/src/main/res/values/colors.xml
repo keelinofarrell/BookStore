@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Tabs-->
+    <color name="colorPrimary">#bb7799</color>
+    <color name="colorPrimaryDark">#eeaabb</color>
+    <color name="colorAccent">#ccbbbb</color>
+    <color name="tabTextActive">#fcf3e8</color>
+    <color name="tabTextInactive">#335577</color>
+
+    <!-- List View Row-->
+    <color name="genre">#666666</color>
+    <color name="year">#888888</color>
+    <color name="list_divider">#d9d9d9</color>
+    <color name="list_row_start_color">#ffffff</color>
+    <color name="list_row_end_color">#ffffff</color>
+    <color name="list_row_hover_start_color">#ebeef0</color>
+    <color name="list_row_hover_end_color">#ebeef0</color>
+    <color name="primary_text_default_material_light">#000000</color>
+</resources>
