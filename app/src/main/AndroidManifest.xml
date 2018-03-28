@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.keelinofarrell.bookstore">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,7 +22,9 @@
         <activity android:name=".CustomerLogin" />
         <activity android:name=".CustomerBookActivity" />
         <activity android:name=".AdminBookActivity" />
-        <activity android:name=".ToolbarActivity"></activity>
+        <activity android:name=".ToolbarActivity" />
+        <activity android:name=".AdminProfile" />
+        <activity android:name=".AddBookActivity"></activity>
     </application>
 
 </manifest>

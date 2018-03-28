@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class AddBookActivity extends AppCompatActivity {
 
@@ -46,11 +47,12 @@ public class AddBookActivity extends AppCompatActivity {
     private Button mConfirm, mBack;
     private String current = "";
     private FirebaseAuth mAuth;
-    private DatabaseReference mBookDatabase;
-    private String userId;
+    private DatabaseReference mBookDatabase, mBookDb;
+    private String bookId;
     private String mISBN1, mTitle1, mAuthor1, mCategory1, mPrice1;
     private ImageView mBookImage;
     private Uri resultUri;
+
 
 
     @Override
@@ -66,8 +68,24 @@ public class AddBookActivity extends AppCompatActivity {
         mBookImage = (ImageView) findViewById(R.id.bookImage);
         mConfirm = (Button)findViewById(R.id.confirm);
         mBack = (Button)findViewById(R.id.back);
-        
 
+
+        mBookDatabase = FirebaseDatabase.getInstance().getReference().child("Books");
+        mBookDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot child : dataSnapshot.getChildren()){
+                        bookId = child.getKey().toString();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -141,20 +159,77 @@ public class AddBookActivity extends AppCompatActivity {
     private void saveBookInfo() {
       mBookDatabase = FirebaseDatabase.getInstance().getReference().child("Books");
 
-        mISBN1 = mISBN.getText().toString();
-        mTitle1 = mTitle.getText().toString();
-        mAuthor1 = mAuthor.getText().toString();
-        mCategory1 = mCategory.getText().toString();
-        mPrice1 = mPrice.getText().toString();
-        Map bookInfo = new HashMap();
-        bookInfo.put("ISBN", mISBN1);
-        bookInfo.put("Title", mTitle1);
-        bookInfo.put("Author", mAuthor1);
-        bookInfo.put("Category", mCategory1);
-        bookInfo.put("Price", mPrice1);
-        mBookDatabase.push().setValue(bookInfo);
+
+
+        if(resultUri != null){
+            StorageReference filePath = FirebaseStorage.getInstance().getReference().child("profile_images");
+            Bitmap bitmap = null;
+
+            //Pass resultURI into a bitmap
+            //gets image from uri location
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(), resultUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //compress image
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+            //move image into an array, how you save images in Firebase
+            byte[] data = baos.toByteArray();
+            UploadTask uploadTask = filePath.putBytes(data);
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    finish();
+                    return;
+                }
+            });
+
+            //add onclicklisteners to see if upload was successful
+            //add URL to the Firebase database
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //get download URL
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    Map newImage = new HashMap();
+                    newImage.put("profileImageUrl", downloadUrl.toString());
+
+                    mISBN1 = mISBN.getText().toString();
+                    mTitle1 = mTitle.getText().toString();
+                    mAuthor1 = mAuthor.getText().toString();
+                    mCategory1 = mCategory.getText().toString();
+                    mPrice1 = mPrice.getText().toString();
+                    final Map bookInfo = new HashMap();
+                    bookInfo.put("ISBN", mISBN1);
+                    bookInfo.put("Title", mTitle1);
+                    bookInfo.put("Author", mAuthor1);
+                    bookInfo.put("Category", mCategory1);
+                    bookInfo.put("Price", mPrice1);
+                    bookInfo.put("profileImageURL", downloadUrl.toString());
+
+                    mBookDatabase.push().setValue(bookInfo);
+
+
+
+                    finish();
+                    return;
+                }
+            });
+
+
+        }else {
+
+            finish();
+        }
+
 
     }
+
+
 
     //method for getting the profile image that is chosen
     @Override
