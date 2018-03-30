@@ -1,27 +1,36 @@
-package com.example.keelinofarrell.bookstore.entity;
+package com.example.keelinofarrell.bookstore.BookRecyclerInfo;
 
 /**
- * Created by keelin.ofarrell on 23/03/2018.
+ * Created by keelin.ofarrell on 28/03/2018.
  */
 
-public class Book {
+public class BookObject {
 
-    private String isbn, title, author, category, price, profileImageUrl;
+    private String isbn, title, author, category, price, bookId;
+    private String profileImageUrl;
 
-    public Book(){
+    public BookObject(){
 
 
     }
 
-    public Book(String isbn, String title, String author, String category, String price){
-        this.isbn = isbn;
+    public BookObject(String bookId, String title, String author,String price, String profileImageUrl){
+        this.bookId = bookId;
         this.title = title;
         this.author = author;
-        this.category = category;
         this.price = price;
+        this.profileImageUrl = profileImageUrl;
 
     }
 
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
 
     public String getIsbn() {
         return isbn;
@@ -61,5 +70,13 @@ public class Book {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 }
