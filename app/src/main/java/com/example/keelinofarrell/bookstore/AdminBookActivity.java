@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookAdapter;
@@ -18,15 +21,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminBookActivity extends AppCompatActivity {
 
     private Button mAddBook, mProfile;
     private ListView mBooks;
     private RecyclerView mBookRecyclerView;
-    private RecyclerView.Adapter mBookAdapter;
+    private BookAdapter mBookAdapter;
     private RecyclerView.LayoutManager mBookLayoutManager;
     DatabaseReference mBooksDbRef;
+    private EditText mSearch;
+    private ArrayList<BookObject> mBooks1;
     String bookId;
 
     @Override
@@ -46,6 +52,24 @@ public class AdminBookActivity extends AppCompatActivity {
         mBookRecyclerView.setAdapter(mBookAdapter);
 
 
+        mSearch = (EditText)findViewById(R.id.search);
+        mSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
+
 
 
         getBookIds();
@@ -59,6 +83,18 @@ public class AdminBookActivity extends AppCompatActivity {
                 return;
             }
         });
+    }
+
+
+    private void filter(String s) {
+
+        List<BookObject> temp = new ArrayList<>();
+        for(BookObject book : booksList){
+            if(book.getTitle().toLowerCase().contains(s)){
+                temp.add(book);
+            }
+        }
+        mBookAdapter.updateList(temp);
     }
 
     private void getBookIds() {
@@ -108,7 +144,9 @@ public class AdminBookActivity extends AppCompatActivity {
 
                     BookObject book = new BookObject(bookId, title, author, price, profileImageUrl);
                     resultBooks.add(book);
+                    booksList.add(book);
                     mBookAdapter.notifyDataSetChanged();
+                    System.out.println(resultBooks);
                 }
             }
 
@@ -120,9 +158,14 @@ public class AdminBookActivity extends AppCompatActivity {
 
     }
 
+    private ArrayList<BookObject> booksList = new ArrayList<>();
+
+
     private ArrayList resultBooks = new ArrayList<BookObject>();
 
     private ArrayList<BookObject> getDataSetHistory() {
         return resultBooks;
     }
+
+
 }

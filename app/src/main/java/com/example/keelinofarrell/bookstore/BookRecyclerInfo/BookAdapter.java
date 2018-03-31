@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 import static com.example.keelinofarrell.bookstore.R.layout.bookinfo;
 
@@ -23,6 +24,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolders> {
     public BookAdapter(List<BookObject> itemList, Context context){
         this.itemList = itemList;
         this.context = context;
+    }
+
+    public void updateList(List<BookObject> list){
+        itemList = list;
+        notifyDataSetChanged();
     }
 
     @Override

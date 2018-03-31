@@ -44,8 +44,6 @@ public class AddBookActivity extends AppCompatActivity {
 
     private EditText mISBN, mTitle, mAuthor, mCategory, mPrice;
     private Button mConfirm, mBack;
-    private String current = "";
-    private FirebaseAuth mAuth;
     private DatabaseReference mBookDatabase, mBookDb;
     private String bookId;
     private String mISBN1, mTitle1, mAuthor1, mCategory1, mPrice1;
@@ -137,7 +135,6 @@ public class AddBookActivity extends AppCompatActivity {
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 saveBookInfo();
             }
         });
@@ -214,7 +211,7 @@ public class AddBookActivity extends AppCompatActivity {
 
 
 
-                    finish();
+                    AddBookActivity.this.finish();
                     return;
                 }
             });
