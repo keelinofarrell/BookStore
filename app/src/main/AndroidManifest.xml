@@ -23,9 +23,12 @@
         <activity android:name=".CustomerBookActivity" />
         <activity android:name=".AdminBookActivity" />
         <activity android:name=".ToolbarActivity" />
-        <activity android:name=".AdminProfile" />
         <activity android:name=".AddBookActivity" />
-        <activity android:name=".BookSingleActivity"></activity>
+        <activity android:name=".BookSingleActivity" />
+        <activity android:name=".CustomerProfile" />
+        <activity android:name=".Payment" />
+        <activity android:name=".ViewCustomers" />
+        <activity android:name=".CustomerSingleActivity"></activity>
     </application>
 
 </manifest>

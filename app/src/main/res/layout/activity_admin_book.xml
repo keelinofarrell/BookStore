@@ -19,20 +19,20 @@
         android:layout_weight="10"
         android:padding="20dp"/>
     <Button
-        android:id="@+id/viewProfile"
+        android:id="@+id/viewCustomers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="10"
         android:padding="20dp"
-        android:text="View Profile" />
+        android:text="View Customers" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/manage"
+        android:id="@+id/logout"
         android:padding="20dp"
         android:layout_weight="10"
-        android:text="Manage"/>
+        android:text="Log Out"/>
 
 </LinearLayout>
 

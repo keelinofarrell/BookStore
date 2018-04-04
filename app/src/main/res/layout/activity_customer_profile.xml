@@ -6,61 +6,70 @@
     android:layout_height="match_parent"
     tools:context="com.example.keelinofarrell.bookstore.AddBookActivity"
     android:orientation="vertical"
-    android:padding= "20sp">
+    android:padding= "10sp">
 
     <ImageView
         android:layout_width="100sp"
         android:layout_height="100sp"
-        android:id="@+id/bookImage"
-        android:src="@drawable/defaultbook"
+        android:id="@+id/profileImage"
+        android:src="@drawable/userdefault"
         android:layout_marginBottom="20sp"/>
 
     <EditText
-        android:id="@+id/isbn"
+        android:id="@+id/firstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:hint="ISBN"
-        android:layout_marginBottom="20sp"
-        android:inputType="number"/>
+        android:hint="First Name"
+        android:layout_marginBottom="10sp"/>
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/lastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:hint="Title"
-        android:layout_marginBottom="20sp"/>
+        android:hint="Last Name"
+        android:layout_marginBottom="10sp"/>
 
     <EditText
-        android:id="@+id/author"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:hint="Author"
-        android:layout_marginBottom="20sp" />
+        android:hint="Email Address"
+        android:layout_marginBottom="10sp" />
 
     <EditText
-        android:id="@+id/category"
+        android:id="@+id/shipping"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:hint="Category"
-        android:layout_marginBottom="20sp" />
-    <EditText
-        android:id="@+id/price"
+        android:hint="Shipping Details"
+        android:lines="5"
+        android:minLines="3"
+        android:inputType="textMultiLine"
+        android:layout_marginBottom="10sp" />
+
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="Price"
-        android:layout_marginBottom="20sp" />
-    <EditText
-        android:id="@+id/quantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="Stock Quantity"
-        android:layout_marginBottom="20sp" />
+        android:orientation="horizontal"
+        android:id="@+id/radios">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/paymemtYes"
+            android:text="Set Payment"
+            android:padding="10dp"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/paymentNo"
+            android:text="Dont Set Payment"/>
+
+    </RadioGroup>
 
     <Button
         android:layout_width="match_parent"
@@ -74,6 +83,13 @@
         android:id="@+id/back"
         android:text="Go Back"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/purchaseHistory"
+        android:text="Purchase History"/>
+
 
 
 </LinearLayout>
+

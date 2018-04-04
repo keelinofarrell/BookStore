@@ -19,8 +19,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,11 +40,11 @@ import java.util.UUID;
 
 public class AddBookActivity extends AppCompatActivity {
 
-    private EditText mISBN, mTitle, mAuthor, mCategory, mPrice;
+    private EditText mISBN, mTitle, mAuthor, mCategory, mPrice, mQuantity;
     private Button mConfirm, mBack;
-    private DatabaseReference mBookDatabase, mBookDb;
-    private String bookId;
-    private String mISBN1, mTitle1, mAuthor1, mCategory1, mPrice1;
+    private DatabaseReference mBookDatabase;
+    private String mISBN1, mTitle1, mAuthor1, mCategory1, mPrice1, mQuantity1, bookId;
+
     private ImageView mBookImage;
     private Uri resultUri;
 
@@ -65,6 +63,7 @@ public class AddBookActivity extends AppCompatActivity {
         mBookImage = (ImageView) findViewById(R.id.bookImage);
         mConfirm = (Button)findViewById(R.id.confirm);
         mBack = (Button)findViewById(R.id.back);
+        mQuantity = (EditText)findViewById(R.id.quantity);
 
 
         mBookDatabase = FirebaseDatabase.getInstance().getReference().child("Books");
@@ -142,6 +141,8 @@ public class AddBookActivity extends AppCompatActivity {
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(AddBookActivity.this, AdminBookActivity.class);
+                startActivity(intent);
                 finish();
                 return;
             }
@@ -199,18 +200,17 @@ public class AddBookActivity extends AppCompatActivity {
                     mAuthor1 = mAuthor.getText().toString();
                     mCategory1 = mCategory.getText().toString();
                     mPrice1 = mPrice.getText().toString();
+                    mQuantity1 = mQuantity.getText().toString();
                     final Map bookInfo = new HashMap();
                     bookInfo.put("ISBN", mISBN1);
                     bookInfo.put("Title", mTitle1);
                     bookInfo.put("Author", mAuthor1);
                     bookInfo.put("Category", mCategory1);
                     bookInfo.put("Price", mPrice1);
+                    bookInfo.put("Stock", mQuantity1);
                     bookInfo.put("profileImageURL", downloadUrl.toString());
 
                     mBookDatabase.push().setValue(bookInfo);
-
-
-
                     AddBookActivity.this.finish();
                     return;
                 }

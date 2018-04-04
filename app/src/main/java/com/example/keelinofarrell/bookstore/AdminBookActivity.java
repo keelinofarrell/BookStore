@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookAdapter;
 import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookObject;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class AdminBookActivity extends AppCompatActivity {
 
-    private Button mAddBook, mProfile;
+    private Button mAddBook, mCustomers, mLogout;
     private ListView mBooks;
     private RecyclerView mBookRecyclerView;
     private BookAdapter mBookAdapter;
@@ -33,6 +34,7 @@ public class AdminBookActivity extends AppCompatActivity {
     DatabaseReference mBooksDbRef;
     private EditText mSearch;
     private ArrayList<BookObject> mBooks1;
+    private boolean isLoggingOut = false;
     String bookId;
 
     @Override
@@ -41,7 +43,8 @@ public class AdminBookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_book);
 
         mAddBook = (Button)findViewById(R.id.addbook);
-        mProfile = (Button)findViewById(R.id.viewProfile);
+        mCustomers = (Button)findViewById(R.id.viewCustomers);
+        mLogout = (Button)findViewById(R.id.logout);
         mBookRecyclerView = (RecyclerView)findViewById(R.id.books);
         mBookRecyclerView.setNestedScrollingEnabled(true);
         mBookRecyclerView.setHasFixedSize(true);
@@ -67,6 +70,27 @@ public class AdminBookActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 filter(editable.toString());
+            }
+        });
+        mLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isLoggingOut = true;
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(AdminBookActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
+
+        mCustomers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminBookActivity.this, ViewCustomers.class);
+                startActivity(intent);
+                finish();
+                return;
             }
         });
 

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.keelinofarrell.bookstore.BookSingleActivity;
 import com.example.keelinofarrell.bookstore.R;
 
-import org.w3c.dom.Text;
 
 /**
  * Created by keelin.ofarrell on 28/03/2018.
