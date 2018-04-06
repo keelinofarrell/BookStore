@@ -1,7 +1,11 @@
 package com.example.keelinofarrell.bookstore;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.media.session.IMediaControllerCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,12 +16,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BookSingleActivity extends AppCompatActivity {
@@ -29,6 +42,8 @@ public class BookSingleActivity extends AppCompatActivity {
     String bookId;
     String mTitle1, mAuthor1, mISBN1, mPrice1, mStock1, mCategory1, mProfileUrl;
     DatabaseReference booksinfo;
+    private Uri resultUri;
+    private BookAdapter mBookAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +82,94 @@ public class BookSingleActivity extends AppCompatActivity {
             }
         });
 
+        mConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveBookInfo();
+                Intent intent = new Intent(BookSingleActivity.this, AdminBookActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+
+            }
+        });
 
 
     }
 
+    //method to update book if admin changes any of the book details
+    private void saveBookInfo() {
+        mTitle1 = mTitle.getText().toString();
+        mAuthor1 = mAuthor.getText().toString();
+        mISBN1 = mISBN.getText().toString();
+        mCategory1 = mCategory.getText().toString();
+        mPrice1 = mPrice.getText().toString();
+        mStock1 = mStock.getText().toString();
+
+        Map bookinfo = new HashMap();
+        bookinfo.put("Title", mTitle1);
+        bookinfo.put("Author", mAuthor1);
+        bookinfo.put("ISBN", mISBN1);
+        bookinfo.put("Category", mCategory1);
+        bookinfo.put("Price", mPrice1);
+        bookinfo.put("Stock", mStock1);
+
+        booksinfo.updateChildren(bookinfo);
+
+
+        if(resultUri != null){
+            StorageReference filePath = FirebaseStorage.getInstance().getReference().child("profile_images").child(bookId);
+            Bitmap bitmap = null;
+
+            //Pass resultURI into a bitmap
+            //gets image from uri location
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(), resultUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //compress image
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+            //move image into an array, how you save images in Firebase
+            byte[] data = baos.toByteArray();
+            UploadTask uploadTask = filePath.putBytes(data);
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    finish();
+                    return;
+                }
+            });
+
+            //add onclicklisteners to see if upload was successful
+            //add URL to the Firebase database
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //get download URL
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    Map newImage = new HashMap();
+                    newImage.put("profileImageUrl", downloadUrl.toString());
+                    booksinfo.updateChildren(newImage);
+
+                    finish();
+                    return;
+                }
+            });
+
+            mBookAdapter.notifyDataSetChanged();
+        }else {
+
+            finish();
+        }
+
+
+    }
+
+    //method to populate edittexts with book info
     private void getBookInfo() {
         booksinfo.addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,35 +199,7 @@ public class BookSingleActivity extends AppCompatActivity {
                             Glide.with(getApplication()).load(mProfileUrl).into(mBookImage);
                         }
                     }
-                    /*Map<String, Object>map = (Map<String, Object>) dataSnapshot.getValue();
-                    if(map.get("ISBN") != null){
-                        mISBN1 = map.get("ISBN").toString();
-                        mISBN.setText(mISBN1);
-                    }
-                    if(map.get("Title") != null){
-                        mTitle1 = map.get("Title").toString();
-                        mTitle.setText(mTitle1);
-                    }
-                    if(map.get("Author") != null){
-                        mAuthor1 = map.get("Author").toString();
-                        mAuthor.setText(mAuthor1);
-                    }
-                    if(map.get("Price") != null){
-                        mPrice1 = map.get("Price").toString();
-                        mPrice.setText(mPrice1);
-                    }
-                    if(map.get("Category") != null){
-                        mCategory1 = map.get("Category").toString();
-                        mCategory.setText(mCategory1);
-                    }
-                    if(map.get("Stock") != null){
-                        mStock1 = map.get("Stock").toString();
-                        mStock.setText(mStock1);
-                    }
-                    if(map.get("profileImageURL")!=null){
-                        mProfileUrl = map.get("profileImageURL").toString();
-                        Glide.with(getApplication()).load(mProfileUrl).into(mBookImage);
-                    }*/
+
                 }
             }
 
