@@ -42,7 +42,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolders> {
 
     @Override
     public void onBindViewHolder(BookViewHolders holder, final int position) {
-        holder.mBookId.setText(itemList.get(position).getIsbn());
+        holder.mBookId.setText(itemList.get(position).getBookId());
         if(itemList.get(position).getTitle()!=null){
             holder.mTitle.setText(itemList.get(position).getTitle());
         }
@@ -63,4 +63,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolders> {
     public int getItemCount() {
         return this.itemList.size();
     }
+
+
 }

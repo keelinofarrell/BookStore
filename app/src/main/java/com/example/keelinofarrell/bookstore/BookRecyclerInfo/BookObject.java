@@ -1,10 +1,12 @@
 package com.example.keelinofarrell.bookstore.BookRecyclerInfo;
 
+import java.io.Serializable;
+
 /**
  * Created by keelin.ofarrell on 28/03/2018.
  */
 
-public class BookObject {
+public class BookObject implements Serializable {
 
     private String isbn, title, author, category, price, bookId;
     private String profileImageUrl;

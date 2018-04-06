@@ -20,9 +20,11 @@ public class BookViewHolders extends RecyclerView.ViewHolder implements View.OnC
 
     public ImageView mBookImage;
     public TextView mTitle, mAuthor, mPrice, mBookId, mBookImageName;
+    String bookId;
 
     public BookViewHolders(View itemView){
         super(itemView);
+        itemView.setClickable(true);
         itemView.setOnClickListener(this);
 
         mBookImage = (ImageView) itemView.findViewById(R.id.bookImage1);
@@ -32,6 +34,9 @@ public class BookViewHolders extends RecyclerView.ViewHolder implements View.OnC
         mBookId = (TextView) itemView.findViewById(R.id.bookId);
         mBookImageName = (TextView) itemView.findViewById(R.id.profileImageText);
 
+        bookId = mBookId.getText().toString();
+
+
     }
 
 
@@ -39,7 +44,7 @@ public class BookViewHolders extends RecyclerView.ViewHolder implements View.OnC
     public void onClick(View view) {
         Intent intent = new Intent(view.getContext(), BookSingleActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("bookId", mBookId.getText().toString());
+        bundle.putString("bookId", ((TextView)view.findViewById(R.id.bookId)).getText().toString() );
         intent.putExtras(bundle);
         view.getContext().startActivity(intent);
     }

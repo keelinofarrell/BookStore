@@ -148,7 +148,7 @@ public class AdminBookActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    String bookId = dataSnapshot.getKey();
+                    String bookId = dataSnapshot.getKey().toString();
                     String title = "";
                     String author = "";
                     String price = "";
