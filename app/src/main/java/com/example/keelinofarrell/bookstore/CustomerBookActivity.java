@@ -94,6 +94,17 @@ public class CustomerBookActivity extends AppCompatActivity {
                 return;
             }
         });
+
+        mShopping = (Button)findViewById(R.id.shoppingCart);
+        mShopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CustomerBookActivity.this, CartActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
     }
 
     private void getBookIds() {

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="horizontal">
+
+   <ImageView
+       android:layout_width="90sp"
+       android:layout_height="90sp"
+       android:id="@+id/bookImage2"
+       android:layout_marginTop="20dp"
+       android:src="@drawable/defaultbook"/>
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/bookID2"
+          android:padding="5sp"
+          android:text="ID"
+          android:visibility="invisible"/>
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/profileImageText2"
+          android:visibility="gone"/>
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/bookTitle2"
+          android:padding="5sp"
+          android:text="Title"/>
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/bookAuthor2"
+          android:padding="5sp"
+          android:text="Author"/>
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/bookPrice2"
+          android:layout_gravity="center_vertical|center_horizontal"
+          android:padding="5sp"
+          android:text="Price"/>
+
+   </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:layout_marginLeft="0dp"
+          android:layout_marginTop="40dp">
+
+
+         <ImageView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:src="@mipmap/ic_add"
+             android:id="@+id/addQuantity"/>
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/cartQuantity"
+             android:layout_gravity="center_vertical|center_horizontal"
+             android:paddingLeft="0dp"
+             android:paddingRight="0dp"
+             android:text="1"
+             android:textSize="12dp"
+             android:textStyle="bold"/>
+
+
+         <ImageView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:src="@mipmap/ic_minus"
+             android:id="@+id/minusQuantity"/>
+
+
+
+      </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

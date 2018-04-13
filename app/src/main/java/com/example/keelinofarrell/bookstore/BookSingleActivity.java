@@ -69,6 +69,7 @@ public class BookSingleActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(getApplicationContext(), "Added to Cart", Toast.LENGTH_LONG).show();
+                            addBooktoCart();
 
                         }
                     });
@@ -142,6 +143,18 @@ public class BookSingleActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void addBooktoCart() {
+
+        DatabaseReference customercartRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId).child("cart");
+        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("cart");
+
+        HashMap cartMap = new HashMap();
+        cartMap.put("bookID", bookId);
+
+        customercartRef.push().setValue(cartMap);
 
     }
 
