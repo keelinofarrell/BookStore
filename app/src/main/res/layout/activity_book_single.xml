@@ -114,6 +114,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Delete Book"
+            android:id="@+id/delete"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Go Back"
             android:id="@+id/back"/>
 

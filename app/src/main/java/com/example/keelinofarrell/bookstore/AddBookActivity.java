@@ -135,6 +135,10 @@ public class AddBookActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 saveBookInfo();
+                Intent intent = new Intent(AddBookActivity.this, AdminBookActivity.class);
+                startActivity(intent);
+                finish();
+                return;
             }
         });
 
@@ -211,10 +215,11 @@ public class AddBookActivity extends AppCompatActivity {
                     bookInfo.put("profileImageURL", downloadUrl.toString());
 
                     mBookDatabase.push().setValue(bookInfo);
-                    AddBookActivity.this.finish();
-                    return;
+
                 }
             });
+
+
 
 
         }else {

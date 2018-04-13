@@ -3,6 +3,7 @@ package com.example.keelinofarrell.bookstore;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -36,6 +37,7 @@ public class AdminBookActivity extends AppCompatActivity {
     private ArrayList<BookObject> mBooks1;
     private boolean isLoggingOut = false;
     String bookId;
+    DividerItemDecoration dividerItemDecoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,9 @@ public class AdminBookActivity extends AppCompatActivity {
         mBookRecyclerView.setLayoutManager(mBookLayoutManager);
         mBookAdapter = new BookAdapter(getDataSetHistory(), AdminBookActivity.this);
         mBookRecyclerView.setAdapter(mBookAdapter);
+
+        dividerItemDecoration = new DividerItemDecoration(mBookRecyclerView.getContext(), LinearLayoutManager.VERTICAL);
+        mBookRecyclerView.addItemDecoration(dividerItemDecoration);
 
 
         mSearch = (EditText)findViewById(R.id.search);

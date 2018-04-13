@@ -1,5 +1,6 @@
 package com.example.keelinofarrell.bookstore;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
@@ -14,11 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,17 +41,55 @@ public class BookSingleActivity extends AppCompatActivity {
     private EditText mTitle, mISBN, mAuthor, mPrice, mStock, mCategory;
     private TextView mText;
     private ImageView mBookImage, mMainImage;
-    private Button mConfirm, mBack;
+    private Button mConfirm, mBack, mDelete;
     String bookId;
-    String mTitle1, mAuthor1, mISBN1, mPrice1, mStock1, mCategory1, mProfileUrl;
-    DatabaseReference booksinfo;
+    String mTitle1, mAuthor1, mISBN1, mPrice1, mStock1, mCategory1, mProfileUrl, userId;
+    DatabaseReference booksinfo, user;
     private Uri resultUri;
     private BookAdapter mBookAdapter;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_single);
+
+        mAuth = FirebaseAuth.getInstance();
+        userId = mAuth.getCurrentUser().getUid();
+
+        mDelete = (Button)findViewById(R.id.delete);
+
+        user = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId);
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    mConfirm.setText("Add to Cart");
+                    mConfirm.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getApplicationContext(), "Added to Cart", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+                    mBack.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(BookSingleActivity.this, CustomerBookActivity.class);
+                            startActivity(intent);
+                            finish();
+                            return;
+                        }
+                    });
+                    mDelete.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
@@ -94,6 +135,22 @@ public class BookSingleActivity extends AppCompatActivity {
             }
         });
 
+        mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteBook();
+            }
+        });
+
+
+    }
+
+    private void deleteBook() {
+        booksinfo.removeValue();
+        Intent intent = new Intent(BookSingleActivity.this, AdminBookActivity.class);
+        startActivity(intent);
+        finish();
+        return;
 
     }
 
