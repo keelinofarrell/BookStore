@@ -68,7 +68,33 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
+        mPurchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addProductsToPurchases();
+                clearCart();
+                Intent intent = new Intent(CartActivity.this, CongratsActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
+
         getProductIds();
+
+    }
+
+    private void getTotal() {
+        mTotal.setText("Total Price: " + mAdapter.grandTotal(resultProduct));
+    }
+
+    private void addProductsToPurchases() {
+        
+
+    }
+
+    private void clearCart(){
+
     }
 
     private void getProductIds() {
@@ -146,6 +172,8 @@ public class CartActivity extends AppCompatActivity {
                     mAdapter.notifyDataSetChanged();
                     System.out.println(resultProduct);
                 }
+
+                getTotal();
             }
 
             @Override

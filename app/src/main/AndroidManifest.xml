@@ -29,7 +29,8 @@
         <activity android:name=".Payment" />
         <activity android:name=".ViewCustomers" />
         <activity android:name=".CustomerSingleActivity" />
-        <activity android:name=".CartActivity"></activity>
+        <activity android:name=".CartActivity" />
+        <activity android:name=".CongratsActivity"></activity>
     </application>
 
 </manifest>

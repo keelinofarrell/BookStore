@@ -62,6 +62,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolders> {
         }
     }
 
+    public String grandTotal(List<ProductObject> itemList){
+
+        double totalPrice = 0;
+        for(int i = 0 ; i < itemList.size(); i++) {
+
+            String priceSubString = itemList.get(i).getPrice();
+            priceSubString = priceSubString.substring(1);
+            double price = Double.parseDouble(priceSubString);
+            totalPrice += price;
+        }
+
+        return Double.toString(totalPrice);
+    }
+
+
+
+
     @Override
     public int getItemCount() {
         return this.itemList.size();
