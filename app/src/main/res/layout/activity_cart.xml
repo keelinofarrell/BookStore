@@ -24,6 +24,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0sp"
+                android:id="@+id/currentinfo"
+                android:text="Use Saved Payment/Shipping Address"
+                android:textSize="10dp"
+                android:padding="10dp"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/newinfo"
+                android:text="New Info"
+                android:textSize="10dp"
+                android:padding="10dp"/>
+        </RadioGroup>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,6 +61,14 @@
             android:layout_gravity="center"
             android:id="@+id/confirm"
             android:text="Complete purchase"
+            android:padding="20dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/back"
+            android:text="Back to books"
             android:padding="20dp"/>
 
     </LinearLayout>

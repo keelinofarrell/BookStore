@@ -108,6 +108,21 @@ public class CustomerProfile extends AppCompatActivity {
             }
         });
 
+        DatabaseReference payment = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId).child("CardInfo");
+        payment.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    mPaymentYes.setText("Update card info");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 

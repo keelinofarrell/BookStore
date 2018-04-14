@@ -1,5 +1,6 @@
 package com.example.keelinofarrell.bookstore;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +30,7 @@ public class CartActivity extends AppCompatActivity {
     private ProductAdapter mAdapter;
     private RecyclerView.LayoutManager mProductLayout;
     private TextView mTotal, mbookid;
-    private Button mPurchase;
+    private Button mPurchase, mBack;
 
     private String bookId, userId;
 
@@ -44,6 +45,7 @@ public class CartActivity extends AppCompatActivity {
 
         mTotal = (TextView)findViewById(R.id.CartTotal);
         mPurchase = (Button)findViewById(R.id.confirm);
+        mBack = (Button)findViewById(R.id.back);
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
@@ -55,6 +57,16 @@ public class CartActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mProductLayout);
         mAdapter = new ProductAdapter(getDataSetHistory(), CartActivity.this);
         mRecyclerView.setAdapter(mAdapter);
+
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CartActivity.this, CustomerBookActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
 
         getProductIds();
     }
