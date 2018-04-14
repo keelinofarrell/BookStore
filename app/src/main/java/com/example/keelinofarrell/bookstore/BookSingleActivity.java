@@ -43,7 +43,7 @@ public class BookSingleActivity extends AppCompatActivity {
     private ImageView mBookImage, mMainImage;
     private Button mConfirm, mBack, mDelete;
     String bookId;
-    String mTitle1, mAuthor1, mISBN1, mPrice1, mStock1, mCategory1, mProfileUrl, userId;
+    String mTitle1, mAuthor1, mISBN1, mPrice1, mStock1, mCategory1, mProfileUrl, userId, mQuantity2;
     DatabaseReference booksinfo, user;
     private Uri resultUri;
     private BookAdapter mBookAdapter;
@@ -59,20 +59,33 @@ public class BookSingleActivity extends AppCompatActivity {
 
         mDelete = (Button)findViewById(R.id.delete);
 
+        mText = (TextView)findViewById(R.id.bookdetails);
+        mTitle = (EditText)findViewById(R.id.BookTitle);
+        mAuthor = (EditText)findViewById(R.id.BookAuthor);
+        mPrice = (EditText)findViewById(R.id.BookPrice);
+        mISBN = (EditText)findViewById(R.id.BookISBN);
+        mStock = (EditText)findViewById(R.id.BookQuantity);
+        mMainImage = (ImageView)findViewById(R.id.backdrop);
+        mBookImage = (ImageView)findViewById(R.id.bookCover);
+        mPrice = (EditText)findViewById(R.id.BookPrice);
+        mCategory = (EditText)findViewById(R.id.BookCategory);
+        mConfirm = (Button)findViewById(R.id.change);
+        mBack = (Button)findViewById(R.id.back);
+
+
+
         user = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId);
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    mConfirm.setText("Add to Cart");
-                    mConfirm.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(getApplicationContext(), "Added to Cart", Toast.LENGTH_LONG).show();
-                            addBooktoCart();
+                    mTitle.setEnabled(false);
+                    mAuthor.setEnabled(false);
+                    mPrice.setEnabled(false);
+                    mISBN.setEnabled(false);
+                    mStock.setEnabled(false);
+                    mCategory.setEnabled(false);
 
-                        }
-                    });
                     mBack.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -101,18 +114,7 @@ public class BookSingleActivity extends AppCompatActivity {
 
         getBookInfo();
 
-        mText = (TextView)findViewById(R.id.bookdetails);
-        mTitle = (EditText)findViewById(R.id.BookTitle);
-        mAuthor = (EditText)findViewById(R.id.BookAuthor);
-        mPrice = (EditText)findViewById(R.id.BookPrice);
-        mISBN = (EditText)findViewById(R.id.BookISBN);
-        mStock = (EditText)findViewById(R.id.BookQuantity);
-        mMainImage = (ImageView)findViewById(R.id.backdrop);
-        mBookImage = (ImageView)findViewById(R.id.bookCover);
-        mPrice = (EditText)findViewById(R.id.BookPrice);
-        mCategory = (EditText)findViewById(R.id.BookCategory);
-        mConfirm = (Button)findViewById(R.id.change);
-        mBack = (Button)findViewById(R.id.back);
+
 
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +142,38 @@ public class BookSingleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 deleteBook();
+            }
+        });
+
+
+    }
+
+    private void findTheQuantity() {
+
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    if(("0").equals(mStock.getText().toString())){
+                        mConfirm.setText("Out Of Stock");
+                        mConfirm.setClickable(false);
+                    }else {
+                        mConfirm.setText("Add to Cart");
+                        mConfirm.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(getApplicationContext(), "Added to Cart", Toast.LENGTH_LONG).show();
+                                addBooktoCart();
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
@@ -263,6 +297,7 @@ public class BookSingleActivity extends AppCompatActivity {
                         }
                         if(child.getKey().equals("Stock")){
                             mStock.setText(child.getValue().toString());
+                            findTheQuantity();
                         }
                         if(child.getKey().equals("profileImageURL")){
                             mProfileUrl = child.getValue().toString();
