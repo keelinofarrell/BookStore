@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
@@ -85,16 +86,78 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void getTotal() {
-        mTotal.setText("Total Price: " + mAdapter.grandTotal(resultProduct));
+        mTotal.setText("Total Price: " + "€" + mAdapter.grandTotal(resultProduct));
     }
 
     private void addProductsToPurchases() {
-        
+        DatabaseReference mProductIds = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId).child("cart");
+        mProductIds.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot products : dataSnapshot.getChildren()){
+                        addProd(products.getKey());
 
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void addProd(String key) {
+
+        DatabaseReference bookDB = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId).child("cart").child(key);
+        bookDB.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot books1 : dataSnapshot.getChildren()){
+                        if(books1.getKey().equals("bookID")){
+                            bookId = books1.getValue().toString();
+
+                            DatabaseReference purchases = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId).child("Purchase");
+
+                            HashMap cartMap = new HashMap();
+                            cartMap.put("bookID", bookId);
+
+                            purchases.push().setValue(cartMap);
+
+
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void clearCart(){
 
+        final DatabaseReference clearCartRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId).child("cart");
+        clearCartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    clearCartRef.removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void getProductIds() {
