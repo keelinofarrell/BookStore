@@ -1,6 +1,7 @@
 package com.example.keelinofarrell.bookstore;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -9,8 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookAdapter;
 import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookObject;
@@ -22,9 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class CustomerBookActivity extends AppCompatActivity {
+public class CustomerBookActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, Comparable {
 
     private Button mProfile, mShopping, mLogout;
     private EditText mSearch;
@@ -32,6 +38,10 @@ public class CustomerBookActivity extends AppCompatActivity {
     private BookAdapter mBookAdapter;
     private RecyclerView.LayoutManager mBookLayoutManager;
     DividerItemDecoration dividerItemDecoration;
+    Spinner spinner;
+    BookObject book;
+    private static final String[]paths = {"ascending" , "descending"};
+    String title;
 
 
     @Override
@@ -52,6 +62,9 @@ public class CustomerBookActivity extends AppCompatActivity {
         mBookRecyclerView.addItemDecoration(dividerItemDecoration);
 
         getBookIds();
+
+        title = book.getTitle();
+
 
         mSearch = (EditText)findViewById(R.id.search);
         mSearch.addTextChangedListener(new TextWatcher() {
@@ -105,6 +118,41 @@ public class CustomerBookActivity extends AppCompatActivity {
                 return;
             }
         });
+
+        spinner = (Spinner)findViewById(R.id.spinner);
+        ArrayAdapter<String>adapter = new ArrayAdapter<String>(CustomerBookActivity.this, android.R.layout.simple_spinner_item, paths);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+
+        switch (position) {
+            case 0:
+                Collections.sort(resultBooks, new Comparator<BookObject>() {
+                    @Override
+                    public int compare(BookObject bookObject, BookObject t1) {
+                        return bookObject.title.compareToIgnoreCase(t1.title);
+                    }
+                    @Override
+                    public Comparator<BookObject> reversed() {
+                        return null;
+                    }
+                });
+                mBookAdapter.notifyDataSetChanged();
+                break;
+            case 1:
+                Collections.reverse(resultBooks);break;
+        }
+        mBookAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 
     private void getBookIds() {
@@ -185,5 +233,10 @@ public class CustomerBookActivity extends AppCompatActivity {
 
     private ArrayList<BookObject> getDataSetHistory() {
         return resultBooks;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        return 0;
     }
 }

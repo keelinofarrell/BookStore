@@ -8,7 +8,12 @@ import java.io.Serializable;
 
 public class BookObject implements Serializable {
 
-    private String isbn, title, author, category, price, bookId;
+    private String isbn;
+    public String title;
+    private String author;
+    private String category;
+    private String price;
+    private String bookId;
     private String profileImageUrl;
 
     public BookObject(){
