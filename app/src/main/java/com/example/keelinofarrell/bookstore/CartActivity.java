@@ -21,7 +21,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,7 +76,6 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addProductsToPurchases();
-                clearCart();
                 Intent intent = new Intent(CartActivity.this, CongratsActivity.class);
                 startActivity(intent);
                 finish();
@@ -118,20 +120,30 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
+                    DatabaseReference purchases = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId).child("Purchase");
+
+                    HashMap cartMap = new HashMap();
                     for(DataSnapshot books1 : dataSnapshot.getChildren()){
                         if(books1.getKey().equals("bookID")){
                             bookId = books1.getValue().toString();
 
-                            DatabaseReference purchases = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(userId).child("Purchase");
+                            Date c = Calendar.getInstance().getTime();
+                            System.out.println("Current time => " + c);
 
-                            HashMap cartMap = new HashMap();
+                            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                            String formattedDate = df.format(c);
+
+                            HashMap books = new HashMap();
+                            books.put("bookId", bookId);
+                            System.out.println("books are " + books);
                             cartMap.put("bookID", bookId);
-
-                            purchases.push().setValue(cartMap);
-
-
+                            cartMap.put("Date", formattedDate);
                         }
+
                     }
+
+
+                    purchases.push().setValue(cartMap);
                 }
             }
 

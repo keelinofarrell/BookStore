@@ -1,4 +1,4 @@
-package com.example.keelinofarrell.bookstore.BookRecyclerInfo;
+package com.example.keelinofarrell.bookstore.PurchasesRecyclerInfo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,21 +11,21 @@ import com.example.keelinofarrell.bookstore.BookSingleActivity;
 import com.example.keelinofarrell.bookstore.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-
 /**
- * Created by keelin.ofarrell on 28/03/2018.
+ * Created by keelin.ofarrell on 16/04/2018.
  */
 
-public class BookViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class PurchaseViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener {
+
 
     public ImageView mBookImage;
-    public TextView mTitle, mAuthor, mPrice, mBookId, mBookImageName;
+    public TextView mTitle, mAuthor, mPrice, mBookId, mBookImageName, mDate;
     String bookId, userId;
     private FirebaseAuth mAuth;
 
 
 
-    public BookViewHolders(View itemView){
+    public PurchaseViewHolders(View itemView){
         super(itemView);
         itemView.setClickable(true);
         itemView.setOnClickListener(this);
@@ -39,7 +39,7 @@ public class BookViewHolders extends RecyclerView.ViewHolder implements View.OnC
         mPrice = (TextView) itemView.findViewById(R.id.bookprice);
         mBookId = (TextView) itemView.findViewById(R.id.bookId);
         mBookImageName = (TextView) itemView.findViewById(R.id.profileImageText);
-
+        mDate = (TextView)itemView.findViewById(R.id.datepurchased);
 
         bookId = mBookId.getText().toString();
 
@@ -47,19 +47,12 @@ public class BookViewHolders extends RecyclerView.ViewHolder implements View.OnC
     }
 
 
-    @Override
-    public void onClick(final View view) {
 
-        Intent intent = new Intent(view.getContext(), BookSingleActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("bookId", ((TextView)view.findViewById(R.id.bookId)).getText().toString() );
-        intent.putExtras(bundle);
-        view.getContext().startActivity(intent);
+
+    @Override
+    public void onClick(View view) {
+
+
 
     }
-
-
-
-
-
 }

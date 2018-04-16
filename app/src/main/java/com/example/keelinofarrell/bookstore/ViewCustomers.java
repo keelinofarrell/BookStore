@@ -1,9 +1,12 @@
 package com.example.keelinofarrell.bookstore;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookObject;
 import com.example.keelinofarrell.bookstore.CustomerRecyclerInfo.CustomerAdapter;
@@ -21,12 +24,14 @@ public class ViewCustomers extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private CustomerAdapter mAdapter;
     private RecyclerView.LayoutManager mCustomerLayout;
+    Button mBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_customers);
 
+        mBack = (Button)findViewById(R.id.back);
         mRecyclerView = (RecyclerView)findViewById(R.id.customers);
         mRecyclerView.setNestedScrollingEnabled(true);
         mRecyclerView.setHasFixedSize(true);
@@ -35,6 +40,16 @@ public class ViewCustomers extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mCustomerLayout);
         mAdapter = new CustomerAdapter(getDataSetHistory(), ViewCustomers.this);
         mRecyclerView.setAdapter(mAdapter);
+
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewCustomers.this, AdminBookActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
 
         getCustomerIds();
 
