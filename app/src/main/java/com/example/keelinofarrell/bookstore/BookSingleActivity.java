@@ -95,7 +95,19 @@ public class BookSingleActivity extends AppCompatActivity {
                             return;
                         }
                     });
-                    mDelete.setVisibility(View.INVISIBLE);
+                    mDelete.setText("Leave/Read Reviews");
+                    mDelete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(BookSingleActivity.this, BookReview.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("bookId", bookId);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                            finish();
+                            return;
+                        }
+                    });
                 }
             }
 

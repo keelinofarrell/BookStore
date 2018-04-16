@@ -63,8 +63,6 @@ public class CustomerBookActivity extends AppCompatActivity implements AdapterVi
 
         getBookIds();
 
-        title = book.getTitle();
-
 
         mSearch = (EditText)findViewById(R.id.search);
         mSearch.addTextChangedListener(new TextWatcher() {
@@ -135,7 +133,7 @@ public class CustomerBookActivity extends AppCompatActivity implements AdapterVi
                 Collections.sort(resultBooks, new Comparator<BookObject>() {
                     @Override
                     public int compare(BookObject bookObject, BookObject t1) {
-                        return bookObject.title.compareToIgnoreCase(t1.title);
+                        return bookObject.getTitle().compareToIgnoreCase(t1.getTitle());
                     }
                     @Override
                     public Comparator<BookObject> reversed() {

@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/bookId"
             android:padding="3sp"
-            android:text="ID"/>
+            android:text="ID"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="match_parent"

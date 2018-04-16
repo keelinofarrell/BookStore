@@ -1,12 +1,14 @@
 package com.example.keelinofarrell.bookstore.BookRecyclerInfo;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
  * Created by keelin.ofarrell on 28/03/2018.
  */
 
-public class BookObject implements Serializable {
+public class BookObject implements Serializable , Comparable<BookObject>{
 
     private String isbn;
     public String title;
@@ -85,5 +87,11 @@ public class BookObject implements Serializable {
 
     public void setBookId(String bookId) {
         this.bookId = bookId;
+    }
+
+
+    @Override
+    public int compareTo(@NonNull BookObject bookObject) {
+        return getTitle().compareToIgnoreCase(bookObject.getTitle());
     }
 }

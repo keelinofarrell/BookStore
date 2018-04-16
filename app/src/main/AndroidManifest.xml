@@ -30,7 +30,8 @@
         <activity android:name=".ViewCustomers" />
         <activity android:name=".CustomerSingleActivity" />
         <activity android:name=".CartActivity" />
-        <activity android:name=".CongratsActivity"></activity>
+        <activity android:name=".CongratsActivity" />
+        <activity android:name=".BookReview"></activity>
     </application>
 
 </manifest>
