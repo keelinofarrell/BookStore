@@ -32,7 +32,6 @@ public class AdminBookActivity extends AppCompatActivity {
     private RecyclerView mBookRecyclerView;
     private BookAdapter mBookAdapter;
     private RecyclerView.LayoutManager mBookLayoutManager;
-    DatabaseReference mBooksDbRef;
     private EditText mSearch;
     private ArrayList<BookObject> mBooks1;
     private boolean isLoggingOut = false;
@@ -120,6 +119,9 @@ public class AdminBookActivity extends AppCompatActivity {
         List<BookObject> temp = new ArrayList<>();
         for(BookObject book : booksList){
             if(book.getTitle().toLowerCase().contains(s)){
+                temp.add(book);
+            }
+            if(book.getAuthor().toLowerCase().contains(s)){
                 temp.add(book);
             }
         }

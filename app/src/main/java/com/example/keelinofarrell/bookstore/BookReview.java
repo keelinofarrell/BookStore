@@ -11,11 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import com.example.keelinofarrell.bookstore.CustomerRecyclerInfo.CustomerObject;
 import com.example.keelinofarrell.bookstore.ReviewRecyclerInfo.ReviewAdapter;
 import com.example.keelinofarrell.bookstore.ReviewRecyclerInfo.ReviewObject;
-import com.example.keelinofarrell.bookstore.ShoppingRecyclerInfo.ProductAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,10 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class BookReview extends AppCompatActivity {
 
@@ -39,7 +34,6 @@ public class BookReview extends AppCompatActivity {
     EditText mComment;
     String rating, comment, bookTitle, userId, profileImageUrl, firstname, lastname, date;
     FirebaseAuth mAuth;
-    Date currentTime;
     private RecyclerView mRecyclerView;
     private ReviewAdapter mAdapter;
     private RecyclerView.LayoutManager mReviewLayout;

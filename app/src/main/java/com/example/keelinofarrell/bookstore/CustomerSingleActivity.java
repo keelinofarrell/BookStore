@@ -8,19 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.keelinofarrell.bookstore.PurchasesRecyclerInfo.PurchaseAdapter;
 import com.example.keelinofarrell.bookstore.PurchasesRecyclerInfo.PurchaseObject;
-import com.example.keelinofarrell.bookstore.ShoppingRecyclerInfo.ProductAdapter;
-import com.example.keelinofarrell.bookstore.ShoppingRecyclerInfo.ProductObject;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class CustomerSingleActivity extends AppCompatActivity {

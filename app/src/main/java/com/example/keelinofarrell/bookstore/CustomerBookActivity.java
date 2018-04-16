@@ -78,6 +78,7 @@ public class CustomerBookActivity extends AppCompatActivity implements AdapterVi
 
             @Override
             public void afterTextChanged(Editable editable) {
+
                 filter(editable.toString());
             }
         });
@@ -178,6 +179,9 @@ public class CustomerBookActivity extends AppCompatActivity implements AdapterVi
         List<BookObject> temp = new ArrayList<>();
         for(BookObject book : booksList){
             if(book.getTitle().toLowerCase().contains(s)){
+                temp.add(book);
+            }
+            if(book.getAuthor().toLowerCase().contains(s)){
                 temp.add(book);
             }
         }

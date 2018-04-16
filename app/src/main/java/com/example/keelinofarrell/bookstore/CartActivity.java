@@ -8,10 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookObject;
-import com.example.keelinofarrell.bookstore.CustomerRecyclerInfo.CustomerAdapter;
-import com.example.keelinofarrell.bookstore.CustomerRecyclerInfo.CustomerObject;
 import com.example.keelinofarrell.bookstore.ShoppingRecyclerInfo.ProductAdapter;
 import com.example.keelinofarrell.bookstore.ShoppingRecyclerInfo.ProductObject;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
 
