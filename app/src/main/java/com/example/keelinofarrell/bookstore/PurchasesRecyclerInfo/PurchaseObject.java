@@ -76,4 +76,14 @@ public class PurchaseObject {
 
 
     }
+
+    public PurchaseObject(String bookId, String title, String author,String price, String profileImageUrl, String date){
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.profileImageUrl = profileImageUrl;
+        this.date = date;
+
+    }
 }

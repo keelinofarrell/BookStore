@@ -1,18 +1,12 @@
 package com.example.keelinofarrell.bookstore.PurchasesRecyclerInfo;
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
-import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookObject;
-import com.example.keelinofarrell.bookstore.BookRecyclerInfo.BookViewHolders;
-
 import java.util.List;
-
-import static com.example.keelinofarrell.bookstore.R.layout.bookinfo;
+import static com.example.keelinofarrell.bookstore.R.layout.purchaseinfo;
 
 /**
  * Created by keelin.ofarrell on 16/04/2018.
@@ -35,7 +29,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseViewHolders> {
 
     @Override
     public PurchaseViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(bookinfo , null , false);
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(purchaseinfo , null , false);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutView.setLayoutParams(lp);
         PurchaseViewHolders hvh = new PurchaseViewHolders(layoutView);
